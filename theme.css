@@ -1628,103 +1628,96 @@ community:
 */
 
 /* ---
-- Liquid Glass Theme (Fine-tuned)
+- Liquid Theme by Jules
 --- */
 
 :root {
-    /* Define colors for the glass effect */
-    --glass-light-bg: rgba(255, 255, 255, 0.2);
-    --glass-dark-bg: rgba(30, 30, 30, 0.2);
-    --blur-strength: 22px;
-    --border-radius-l: 20px;
-    --border-radius-m: 15px;
-    --border-radius-s: 10px;
+    /* Core Style Definitions */
+    --liquid-blur: blur(20px) saturate(180%);
+    --liquid-bg-light: rgba(240, 240, 240, 0.4);
+    --liquid-bg-dark: rgba(40, 40, 40, 0.4);
+    --liquid-radius-panel: 16px;
+    --liquid-radius-pill: 9999px;
+    --liquid-border-light: 1px solid rgba(255, 255, 255, 0.5);
+    --liquid-border-dark: 1px solid rgba(255, 255, 255, 0.1);
+    --liquid-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+    --liquid-transition: all 0.25s ease-in-out;
+
+    /* Solid backgrounds for editor pane */
+    --liquid-editor-bg-light: #FFFFFF;
+    --liquid-editor-bg-dark: #1E1E1E;
 }
 
-/* Ensure the main editor pane has a solid background, overriding any glass effect */
-.workspace-leaf-content {
-    background-color: var(--background-primary) !important;
+/* ---
+- Liquid Theme Implementation
+--- */
+
+/* 1. Editor Pane Solid Background */
+.theme-light .workspace-leaf-content {
+    background-color: var(--liquid-editor-bg-light);
 }
 .theme-dark .workspace-leaf-content {
-    background-color: var(--color-base-00) !important;
+    background-color: var(--liquid-editor-bg-dark);
 }
 
-/* Apply the glass effect ONLY to non-editor UI elements */
+/* 2. Glassmorphism effect for sidebars and modals */
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split,
 .modal-container .modal {
-    /* Make the base background transparent to allow the backdrop-filter to work */
-    background-color: transparent;
+    backdrop-filter: var(--liquid-blur);
+    border-radius: var(--liquid-radius-panel);
+    box-shadow: var(--liquid-shadow);
 }
 
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split,
-.modal-container .modal,
-.menu {
-    backdrop-filter: blur(var(--blur-strength));
-    border-radius: var(--border-radius-m);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
+/* Light Mode Glass Styles */
 .theme-light .workspace-split.mod-left-split,
 .theme-light .workspace-split.mod-right-split,
-.theme-light .modal-container .modal,
-.theme-light .menu {
-    background-color: var(--glass-light-bg);
+.theme-light .modal-container .modal {
+    background-color: var(--liquid-bg-light);
+    border: var(--liquid-border-light);
 }
 
+/* Dark Mode Glass Styles */
 .theme-dark .workspace-split.mod-left-split,
 .theme-dark .workspace-split.mod-right-split,
-.theme-dark .modal-container .modal,
-.theme-dark .menu {
-    background-color: var(--glass-dark-bg);
+.theme-dark .modal-container .modal {
+    background-color: var(--liquid-bg-dark);
+    border: var(--liquid-border-dark);
 }
 
-
-/* --- Keyframe Animations --- */
-@keyframes fadeInScaleUp {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+/* 3. Pill shape for active tabs */
+.workspace-tab-header.is-active {
+    border-radius: var(--liquid-radius-pill);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* 4. Animations and Transitions */
+
+/* Default transition for interactive elements */
+.nav-file-title,
+.nav-folder-title,
+.workspace-tab-header,
+.modal-setting-item,
+.clickable-icon,
+button,
+.menu-item {
+    transition: var(--liquid-transition);
 }
 
-/* --- UI Component Styling --- */
-
-/* Bottom Status Bar Style */
-.status-bar {
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-    border-top: 1px solid var(--background-modifier-border);
-    color: var(--text-muted);
-}
-.theme-light .status-bar {
-    background-color: #f8f8f8; /* A light, solid color for light mode */
-}
-.theme-dark .status-bar {
-    background-color: #181c20; /* A dark, solid color for dark mode */
+/* Hover effect */
+.nav-file-title:hover,
+.nav-folder-title:hover,
+.workspace-tab-header:hover,
+.clickable-icon:hover,
+.menu-item:hover {
+    background-color: rgba(128, 128, 128, 0.1); /* A subtle grey for feedback */
 }
 
-
-/* Animation Refinements & Bug Fixes */
-.nav-files-container {
-  overflow-y: scroll;
-}
-.nav-folder-children {
-  max-height: 1000px;
-  overflow: hidden;
-  transition: max-height 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-.nav-folder.is-collapsed > .nav-folder-children {
-  max-height: 0;
-  overflow: hidden;
-}
-.nav-folder-collapse-indicator {
-  transition: transform 0.2s ease-in-out !important;
-}
-.workspace-tab-header[data-type$="-view"] {
-  animation: fadeInScaleUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+/* Click effect */
+.nav-file-title:active,
+.nav-folder-title:active,
+.workspace-tab-header:active,
+.clickable-icon:active,
+button:active,
+.menu-item:active {
+    transform: scale(0.98);
 }
