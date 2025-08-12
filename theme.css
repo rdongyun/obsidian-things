@@ -1628,14 +1628,14 @@ community:
 */
 
 /* ---
-- Liquid Glass Theme (Corrected)
+- Liquid Glass Theme (Fine-tuned)
 --- */
 
 :root {
     /* Define colors for the glass effect */
-    --glass-light-bg: rgba(255, 255, 255, 0.25);
-    --glass-dark-bg: rgba(20, 20, 20, 0.25);
-    --blur-strength: 15px;
+    --glass-light-bg: rgba(255, 255, 255, 0.2);
+    --glass-dark-bg: rgba(30, 30, 30, 0.2);
+    --blur-strength: 22px;
     --border-radius-l: 20px;
     --border-radius-m: 15px;
     --border-radius-s: 10px;
@@ -1663,6 +1663,7 @@ community:
 .menu {
     backdrop-filter: blur(var(--blur-strength));
     border-radius: var(--border-radius-m);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .theme-light .workspace-split.mod-left-split,
