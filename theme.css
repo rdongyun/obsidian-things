@@ -1628,129 +1628,102 @@ community:
 */
 
 /* ---
-- Liquid Glass Theme
+- Liquid Glass Theme (Corrected)
 --- */
 
 :root {
-    --background-primary-alpha: 0.1;
-    --background-secondary-alpha: 0.15;
-    --background-tertiary-alpha: 0.05;
-    --blur-strength: 20px;
+    /* Define colors for the glass effect */
+    --glass-light-bg: rgba(255, 255, 255, 0.25);
+    --glass-dark-bg: rgba(20, 20, 20, 0.25);
+    --blur-strength: 15px;
     --border-radius-l: 20px;
     --border-radius-m: 15px;
     --border-radius-s: 10px;
 }
 
-body {
-    --background-primary: rgba(255, 255, 255, var(--background-primary-alpha));
-    --background-secondary: rgba(255, 255, 255, var(--background-secondary-alpha));
-    --background-tertiary: rgba(255, 255, 255, var(--background-tertiary-alpha));
+/* Ensure the main editor pane has a solid background, overriding any glass effect */
+.workspace-leaf-content {
+    background-color: var(--background-primary) !important;
+}
+.theme-dark .workspace-leaf-content {
+    background-color: var(--color-base-00) !important;
 }
 
-.theme-dark {
-    --background-primary: rgba(0, 0, 0, var(--background-primary-alpha));
-    --background-secondary: rgba(0, 0, 0, var(--background-secondary-alpha));
-    --background-tertiary: rgba(0, 0, 0, var(--background-tertiary-alpha));
+/* Apply the glass effect ONLY to non-editor UI elements */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split,
+.modal-container .modal {
+    /* Make the base background transparent to allow the backdrop-filter to work */
+    background-color: transparent;
 }
 
 .workspace-split.mod-left-split,
 .workspace-split.mod-right-split,
-.modal,
-.menu,
-.nav-files-container,
-.workspace-ribbon {
-    background-color: var(--background-secondary);
+.modal-container .modal,
+.menu {
     backdrop-filter: blur(var(--blur-strength));
     border-radius: var(--border-radius-m);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    transition: all 0.3s ease-in-out;
 }
 
-.workspace-split.mod-left-split::before,
-.workspace-split.mod-right-split::before,
-.modal::before,
-.menu::before,
-.nav-files-container::before,
-.workspace-ribbon::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%);
-    pointer-events: none;
-    border-radius: var(--border-radius-m);
+.theme-light .workspace-split.mod-left-split,
+.theme-light .workspace-split.mod-right-split,
+.theme-light .modal-container .modal,
+.theme-light .menu {
+    background-color: var(--glass-light-bg);
 }
 
-.modal {
-    animation: fadeInScaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.menu {
-    animation: fadeIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+.theme-dark .workspace-split.mod-left-split,
+.theme-dark .workspace-split.mod-right-split,
+.theme-dark .modal-container .modal,
+.theme-dark .menu {
+    background-color: var(--glass-dark-bg);
 }
 
 
+/* --- Keyframe Animations --- */
 @keyframes fadeInScaleUp {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
+
+/* --- UI Component Styling --- */
 
 /* Bottom Status Bar Style */
 .status-bar {
-    background-color: white !important;
     backdrop-filter: none !important;
-    border: none !important;
     box-shadow: none !important;
-    color: #000 !important; /* Ensure text is readable on white background */
+    border-top: 1px solid var(--background-modifier-border);
+    color: var(--text-muted);
+}
+.theme-light .status-bar {
+    background-color: #f8f8f8; /* A light, solid color for light mode */
+}
+.theme-dark .status-bar {
+    background-color: #181c20; /* A dark, solid color for dark mode */
 }
 
-/* --- Animation Refinements & Bug Fixes --- */
 
-/* 1. Fix folder shifting and add smooth collapse/expand animation */
+/* Animation Refinements & Bug Fixes */
 .nav-files-container {
-  /* This forces the scrollbar to always be present, preventing a layout shift when it appears on folder expand. */
   overflow-y: scroll;
 }
-
 .nav-folder-children {
-  /* Animate the collapse/expand motion */
-  max-height: 1000px; /* A large enough value to not clip content */
+  max-height: 1000px;
   overflow: hidden;
-  transition: max-height 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
-              opacity 0.3s ease-in-out;
+  transition: max-height 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-
 .nav-folder.is-collapsed > .nav-folder-children {
   max-height: 0;
-  opacity: 0;
   overflow: hidden;
 }
-
 .nav-folder-collapse-indicator {
-  /* Animate the rotation of the arrow */
   transition: transform 0.2s ease-in-out !important;
 }
-
-/* 2. Add smooth animation for new tab creation */
 .workspace-tab-header[data-type$="-view"] {
-  /* Target newly created tabs */
   animation: fadeInScaleUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
