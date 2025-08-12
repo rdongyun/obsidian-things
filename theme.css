@@ -1632,9 +1632,9 @@ community:
 --- */
 
 :root {
-    --background-primary-alpha: 0.5;
-    --background-secondary-alpha: 0.3;
-    --background-tertiary-alpha: 0.2;
+    --background-primary-alpha: 0.1;
+    --background-secondary-alpha: 0.15;
+    --background-tertiary-alpha: 0.05;
     --blur-strength: 20px;
     --border-radius-l: 20px;
     --border-radius-m: 15px;
@@ -1711,4 +1711,46 @@ body {
     to {
         opacity: 1;
     }
+}
+
+/* Bottom Status Bar Style */
+.status-bar {
+    background-color: white !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #000 !important; /* Ensure text is readable on white background */
+}
+
+/* --- Animation Refinements & Bug Fixes --- */
+
+/* 1. Fix folder shifting and add smooth collapse/expand animation */
+.nav-files-container {
+  /* This forces the scrollbar to always be present, preventing a layout shift when it appears on folder expand. */
+  overflow-y: scroll;
+}
+
+.nav-folder-children {
+  /* Animate the collapse/expand motion */
+  max-height: 1000px; /* A large enough value to not clip content */
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+              opacity 0.3s ease-in-out;
+}
+
+.nav-folder.is-collapsed > .nav-folder-children {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.nav-folder-collapse-indicator {
+  /* Animate the rotation of the arrow */
+  transition: transform 0.2s ease-in-out !important;
+}
+
+/* 2. Add smooth animation for new tab creation */
+.workspace-tab-header[data-type$="-view"] {
+  /* Target newly created tabs */
+  animation: fadeInScaleUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
