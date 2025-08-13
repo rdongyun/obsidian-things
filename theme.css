@@ -1661,8 +1661,8 @@ community:
 }
 
 /* 2. Glassmorphism effect for sidebars and modals */
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split,
+.workspace-split.mod-left-split .workspace-tabs,
+.workspace-split.mod-right-split .workspace-tabs,
 .modal-container .modal {
     backdrop-filter: var(--liquid-blur);
     border-radius: var(--liquid-radius-panel);
@@ -1670,16 +1670,16 @@ community:
 }
 
 /* Light Mode Glass Styles */
-.theme-light .workspace-split.mod-left-split,
-.theme-light .workspace-split.mod-right-split,
+.theme-light .workspace-split.mod-left-split .workspace-tabs,
+.theme-light .workspace-split.mod-right-split .workspace-tabs,
 .theme-light .modal-container .modal {
     background-color: var(--liquid-bg-light);
     border: var(--liquid-border-light);
 }
 
 /* Dark Mode Glass Styles */
-.theme-dark .workspace-split.mod-left-split,
-.theme-dark .workspace-split.mod-right-split,
+.theme-dark .workspace-split.mod-left-split .workspace-tabs,
+.theme-dark .workspace-split.mod-right-split .workspace-tabs,
 .theme-dark .modal-container .modal {
     background-color: var(--liquid-bg-dark);
     border: var(--liquid-border-dark);
